@@ -4,9 +4,9 @@ import org.opencv.core.Mat;
 
 public class JOpenCV2 {
     public static void main(String[] args) {
+        nu.pattern.OpenCV.loadShared();
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        System.out.println("Done");
-        Mat mat = Mat.eye( 3, 3, CvType.CV_8UC1 );
-        System.out.println( "mat = " + mat.dump() );
+        PageMaker.Make();
+        PageScanner.rotate();
     }
 }
