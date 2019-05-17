@@ -28,11 +28,11 @@ public class SimpleWindow extends JFrame {
     private JTextField input3 = new JTextField("", 1);
     private JTextField input4 = new JTextField("", 1);
     private JTextField input5 = new JTextField("", 1);
-    private JComboBox List1 = getList2();
-    private JComboBox List2 = getList2();
-    private JComboBox List3 = getList2();
-    private JComboBox List4 = getList2();
-    private JComboBox List5 = getList2();
+    private JComboBox List1 = getList2(8);
+    private JComboBox List2 = getList2(8);
+    private JComboBox List3 = getList2(8);
+    private JComboBox List4 = getList2(8);
+    private JComboBox List5 = getList2(8);
     private JCheckBox check1 = new JCheckBox("Вкл", true);
     private JCheckBox check2 = new JCheckBox("Вкл", true);
     private JCheckBox check3 = new JCheckBox("Вкл", true);
@@ -136,10 +136,11 @@ public class SimpleWindow extends JFrame {
         result.setAlignmentX(LEFT_ALIGNMENT);
         return result;
     }
-    public static JComboBox getList2(){
-        String[] items = {
-                "1", "2", "3", "4", "5", "6", "7", "8"
-        };
+    public static JComboBox getList2(int s){
+        String[] items = new String[s];
+        for (int i = 0; i < s; i++) {
+            items[i] = Integer.toString(i + 1);
+        }
         JComboBox  result = new JComboBox(items);
         result.setSelectedIndex(4);
         result.setAlignmentX(LEFT_ALIGNMENT);
