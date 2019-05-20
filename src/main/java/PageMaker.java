@@ -13,27 +13,27 @@ import java.awt.image.DataBufferByte;
 public class PageMaker {
     public static Mat src = new Mat();
     public static void Make(){
-        String imgSrc = "images/source.png";
+        String imgSrc = "images/PDFtoJPG.me-1.jpg";
         src = Imgcodecs.imread(imgSrc);
-        int depth = 15;
+        int depth = 60;
         for (int i = 0; i < depth; i++) {
             // 1 квадрат
-            Imgproc.rectangle(src, new Point(i, i), new Point(depth, depth), new Scalar(0, 0));
+            Imgproc.rectangle(src, new Point(i, i), new Point(depth - i, depth - i), new Scalar(0, 0));
             // 2 квадрат
-            Imgproc.rectangle(src, new Point(src.width() - depth + i, i), new Point(src.width(), depth), new Scalar(0, 0));
+            Imgproc.rectangle(src, new Point(src.width() - depth + i, i), new Point(src.width() - i, depth - i), new Scalar(0, 0));
             // 3 квадрат
-            Imgproc.rectangle(src, new Point((src.width() - depth)/2 + i, i), new Point((src.width() + depth)/2, depth), new Scalar(0, 0));
+            //Imgproc.rectangle(src, new Point((src.width() - depth)/2 + i, i), new Point((src.width() + depth)/2, depth), new Scalar(0, 0));
             // 4 квадрат
-            Imgproc.rectangle(src, new Point(i,src.height() - depth + i), new Point( depth, src.height()), new Scalar(0, 0));
+            Imgproc.rectangle(src, new Point(i,src.height() - depth + i), new Point( depth - i, src.height() - i), new Scalar(0, 0));
             // 5 квадрат
-            Imgproc.rectangle(src, new Point(src.width() - depth + i, src.height() - depth + i), new Point(src.width(), src.height()), new Scalar(0, 0));
+            Imgproc.rectangle(src, new Point(src.width() - depth + i, src.height() - depth + i), new Point(src.width() - i, src.height() - i), new Scalar(0, 0));
         }
-        predmet1(30, 8, 0);
-        Imgproc.circle(src, new Point(415,545), 50, new Scalar(0, 0, 255));
+        //predmet1(30, 8, 0);
+        //Imgproc.circle(src, new Point(415,545), 50, new Scalar(0, 0, 255));
         for (int i = 0; i < 3; i++) {
-            System.out.println(src.get(100, 100)[i]);
+            //System.out.println(src.get(100, 100)[i]);
         }
-        Imgcodecs.imwrite("images/out1.png", src);
+        Imgcodecs.imwrite("images/out1.jpg", src);
         System.out.println("File ready");
     }
 
