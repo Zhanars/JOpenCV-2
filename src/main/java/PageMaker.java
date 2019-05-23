@@ -15,7 +15,7 @@ public class PageMaker {
     public static void Make(){
         String imgSrc = "images/PDFtoJPG.me-1.jpg";
         src = Imgcodecs.imread(imgSrc);
-        int depth = 60;
+        int depth = 40;
         for (int i = 0; i < depth; i++) {
             // 1 квадрат
             Imgproc.rectangle(src, new Point(i, i), new Point(depth - i, depth - i), new Scalar(0, 0));
