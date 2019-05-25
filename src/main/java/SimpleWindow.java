@@ -120,7 +120,7 @@ public class SimpleWindow extends JFrame {
             nu.pattern.OpenCV.loadShared();
             System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
             PageMaker.Make();
-            PageScanner.rotate();
+            PageScanner.rotate("images/out.png");
             JOptionPane.showMessageDialog(null,
                     "Бланк готов",
                     "Бланк готов",

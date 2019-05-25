@@ -25,6 +25,20 @@
             <artifactId>opencv</artifactId>
             <version>3.2.0-0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.asprise.imaging/java-scanner-access-twain -->
+        <dependency>
+            <groupId>com.asprise.imaging</groupId>
+            <artifactId>java-scanner-access-twain</artifactId>
+            <version>12.0.19.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

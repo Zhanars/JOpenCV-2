@@ -1,9 +1,9 @@
 <component name="libraryTable">
-  <library name="x64">
+  <library name="twain64">
     <CLASSES />
     <JAVADOC />
     <NATIVE>
-      <root url="file://$PROJECT_DIR$/src/main/java/libs/x64" />
+      <root url="file://D:/twaindsm-2.3.0.win.bin/twaindsm-2.3.0.win.bin/twain64" />
     </NATIVE>
     <SOURCES />
   </library>
