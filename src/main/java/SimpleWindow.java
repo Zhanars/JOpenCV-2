@@ -7,6 +7,10 @@ import java.awt.event.ActionListener;
 
 
 public class SimpleWindow extends JFrame {
+    private int incount = 25;
+    private int insel = 24;
+    private int varcount = 8;
+    private int varsel = 7;
     private JButton button = new JButton("Создать бланк");
     private JLabel col1 = new JLabel(" Порядок ");
     private JLabel col2 = new JLabel(" Название предмета ");
@@ -23,16 +27,16 @@ public class SimpleWindow extends JFrame {
     private JComboBox CharList3 = getList();
     private JComboBox CharList4 = getList();
     private JComboBox CharList5 = getList();
-    private JTextField input1 = new JTextField("", 1);
-    private JTextField input2 = new JTextField("", 1);
-    private JTextField input3 = new JTextField("", 1);
-    private JTextField input4 = new JTextField("", 1);
-    private JTextField input5 = new JTextField("", 1);
-    private JComboBox List1 = getList2(8);
-    private JComboBox List2 = getList2(8);
-    private JComboBox List3 = getList2(8);
-    private JComboBox List4 = getList2(8);
-    private JComboBox List5 = getList2(8);
+    private JComboBox input1 = getList2(incount,insel);
+    private JComboBox input2 = getList2(incount,insel);
+    private JComboBox input3 = getList2(incount,insel);
+    private JComboBox input4 = getList2(incount,insel);
+    private JComboBox input5 = getList2(incount,insel);
+    private JComboBox List1 = getList2(varcount,varsel);
+    private JComboBox List2 = getList2(varcount,varsel);
+    private JComboBox List3 = getList2(varcount,varsel);
+    private JComboBox List4 = getList2(varcount,varsel);
+    private JComboBox List5 = getList2(varcount,varsel);
     private JCheckBox check1 = new JCheckBox("Вкл", true);
     private JCheckBox check2 = new JCheckBox("Вкл", true);
     private JCheckBox check3 = new JCheckBox("Вкл", true);
@@ -40,7 +44,7 @@ public class SimpleWindow extends JFrame {
     private JCheckBox check5 = new JCheckBox("Вкл", false);
     public SimpleWindow(){
         super("Конструктор бланка");
-        this.setBounds(300,100,700,300);
+        this.setBounds(200,100,1000,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         container.setLayout(new GridLayout(7,5,2,2));
@@ -90,28 +94,28 @@ public class SimpleWindow extends JFrame {
             String message = "";
             if (check1.isSelected()){
                 message += "Первый предмет " + (CharList1.getSelectedItem());
-                message += ", вопросов: " + (input1.getText());
-                message += ", вариантов: " + (List1.getSelectedItem());
+                message += ", кол-во вопросов: " + (input1.getSelectedItem());
+                message += ", кол-во вариантов: " + (List1.getSelectedItem());
             }
             if (check2.isSelected()){
                 message += "\nВторой предмет " + (CharList2.getSelectedItem());
-                message += ", вопросов: " + (input2.getText());
-                message += ", вариантов: " + (List2.getSelectedItem());
+                message += ", кол-во вопросов: " + (input2.getSelectedItem());
+                message += ", кол-во вариантов: " + (List2.getSelectedItem());
             }
             if (check3.isSelected()){
                 message += "\nТретий предмет " + (CharList3.getSelectedItem());
-                message += ", вопросов: " + (input3.getText());
-                message += ", вариантов: " + (List3.getSelectedItem());
+                message += ", кол-во вопросов: " + (input3.getSelectedItem());
+                message += ", кол-во вариантов: " + (List3.getSelectedItem());
             }
             if (check4.isSelected()){
                 message += "\nЧетвертый предмет " + (CharList4.getSelectedItem());
-                message += ", вопросов: " + (input4.getText());
-                message += ", вариантов: " + (List4.getSelectedItem());
+                message += ", кол-во вопросов: " + (input4.getSelectedItem());
+                message += ", кол-во вариантов: " + (List4.getSelectedItem());
             }
             if (check5.isSelected()){
                 message += "\nПятый предмет " + (CharList5.getSelectedItem().toString());
-                message += ", вопросов: " + (input5.getText());
-                message += ", вариантов: " + (List5.getSelectedItem());
+                message += ", кол-во вопросов: " + (input5.getSelectedItem());
+                message += ", кол-во вариантов: " + (List5.getSelectedItem());
             }
             JOptionPane.showMessageDialog(null,
                     message,
@@ -130,19 +134,33 @@ public class SimpleWindow extends JFrame {
     }
     public static JComboBox getList(){
         String[] items = {
-                "Item 1", "Item 2", "Item 3", "Item 4"
+                "Математика",
+                "Казахский язык",
+                "История Казахстана",
+                "Физика",
+                "Биология",
+                "Химия",
+                "География",
+                "Всемирная история",
+                "Английский язык",
+                "Русский язык",
+                "Казахская литература",
+                "Русская литература",
+                "Профильный предмет 1",
+                "Профильный предмет 2"
+
         };
         JComboBox result = new JComboBox(items);
         result.setAlignmentX(LEFT_ALIGNMENT);
         return result;
     }
-    public static JComboBox getList2(int s){
+    public static JComboBox getList2(int s, int sel){
         String[] items = new String[s];
         for (int i = 0; i < s; i++) {
             items[i] = Integer.toString(i + 1);
         }
         JComboBox  result = new JComboBox(items);
-        result.setSelectedIndex(4);
+        result.setSelectedIndex(sel);
         result.setAlignmentX(LEFT_ALIGNMENT);
         return result;
     }

@@ -115,8 +115,6 @@ public class SaveImage extends Component implements ActionListener {
         }
         return formatSet.toArray(new String[0]);
     }
-
-
      public void actionPerformed(ActionEvent e) {
          JComboBox cb = (JComboBox)e.getSource();
          if (cb.getActionCommand().equals("SetFilter")) {
