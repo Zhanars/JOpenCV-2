@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 public class SimpleWindow extends JFrame {
@@ -121,10 +122,12 @@ public class SimpleWindow extends JFrame {
                     message,
                     "Результат",
                     JOptionPane.WARNING_MESSAGE);
-            nu.pattern.OpenCV.loadShared();
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            PageMaker.Make();
-            PageScanner.rotate("images/out.png");
+            //PageScanner.scan();
+            try {
+                PageScanner.rotate("2019-05-26_20-03-58.571.jpg");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             JOptionPane.showMessageDialog(null,
                     "Бланк готов",
                     "Бланк готов",
