@@ -30,7 +30,7 @@ public class PageScanner {
         Graphics g = image.getGraphics();
         g.drawImage( bufferedImage, 0, 0, null );
         g.dispose();
-        RescaleOp rescaleOp = new RescaleOp(1.4f, 15, null);
+        RescaleOp rescaleOp = new RescaleOp(1.1f, 15, null);
         rescaleOp.filter(image, image);
         int mintl = 1000000, mintr = 1000000, minbl = 1000000, minbr = 1000000, minell = 100000, width = image.getWidth() - 23, height = image.getHeight() - 23;
         raster = image.getRaster();
@@ -94,30 +94,25 @@ public class PageScanner {
                 }
             }
         }
-        int[] pixel = new int[1];
-        pixel[0] = 255;
-        raster.setPixel(topleft[0], topleft[1], pixel);
-        raster.setPixel(topright[0], topright[1], pixel);
-        raster.setPixel(botleft[0], botleft[1], pixel);
-        raster.setPixel(botright[0], botright[1], pixel);
-        raster.setPixel(ellipse[0], ellipse[1], pixel);
+        System.out.println(checkEllipse(ellipse[0], ellipse[1]));
         image.setData(raster);
         gridImage = image;
         for (int i = 0; i < ellipsePos; i++){
-            System.out.println("1 " + topleft[0] + ", " + topleft[1]);
-            System.out.println("2 " + topright[0] + ", " + topright[1]);
-            System.out.println("3 " + botleft[0] + ", " + botleft[1]);
-            System.out.println("4 " + botright[0] + ", " + botright[1]);
-            System.out.println("- - - - - ");
             gridImage = rotateImag(gridImage);
         }
-        System.out.println("1 " + topleft[0] + ", " + topleft[1]);
-        System.out.println("2 " + topright[0] + ", " + topright[1]);
-        System.out.println("3 " + botleft[0] + ", " + botleft[1]);
-        System.out.println("4 " + botright[0] + ", " + botright[1]);
-        System.out.println(ellipsePos + ", " + ellipse[0] + ", " + ellipse[1]);
-        ImageIO.write(gridImage, "jpg", new File("123.jpg"));
+        raster = gridImage.getRaster();
+        rectangle(topleft, 20);
+        rectangle(topright, 20);
+        rectangle(botleft, 20);
+        rectangle(botright, 20);
         System.out.println("Finish print");
+        System.out.println(getSection1());
+        System.out.println(getSection2());
+        System.out.println(getSection3());
+        System.out.println(getSection5());
+        System.out.println(getSection6());
+        gridImage.setData(raster);
+        ImageIO.write(gridImage, "jpg", new File("123.jpg"));
     }
     public static void scan(){
         Imaging imaging = new Imaging("myApp", 0);
@@ -159,6 +154,62 @@ public class PageScanner {
             e.printStackTrace();
         }
     }
+    public static String getSection1(){
+        String res = "";
+        int x = topleft[0] + (int)(38*0.5), y = topleft[1] + (int)(36*2.5);
+        for (int i = 0; i < 14; i++){
+            res += getColumn12(x,y);
+            x += 38;
+        }
+        return res;
+    }
+    public static String getSection2(){
+        String res = "";
+        int x = topleft[0] + (int)(38*15.5), y = topleft[1] + (int)(36*2.5);
+        for (int i = 0; i < 12; i++){
+            res += getColumn12(x,y);
+            x += 38;
+        }
+        return res;
+    }
+    public static String getSection3(){
+        String res = "";
+        int x = topleft[0] + (int)(38*28.5), y = topleft[1] + (int)(36*4.5) + 5;
+        for (int i = 0; i < 12; i++){
+            res += getColumn35(x,y);
+            x += 38;
+        }
+        return res;
+    }
+    public static String getSection5(){
+        String res = "";
+        int x = topleft[0] + (int)(38*36.5) - 2, y = topleft[1] + (int)(36*33) + 5;
+        for (int i = 0; i < 4; i++){
+            res += getColumn35(x,y);
+            x += 38;
+        }
+        return res;
+    }
+    public static String getSection6(){
+        String result = "";
+        int x = topleft[0] + (int)(38*34.5) - 2, y = topleft[1] + (int)(36*34) + 5;
+        int minellipce = 80000;
+        for (int i = 1; i < 5; i++){
+            if (minellipce > checkEllipse(x, y)){
+                minellipce = checkEllipse(x, y);
+                result += getDisseplinName(i);
+            }
+            int[] XoY = new int[2];
+            XoY[0] = x - 14;
+            XoY[1] = y - 14;
+            rectangle(XoY, 28);
+            if (i % 2 == 0){
+                y++;
+            }
+            y += 36;
+        }
+        return result;
+    }
     public static int checkRectanle(int x, int y) {
         int sum = 0;
         for (int i = x; i < x + 21; i++){
@@ -190,7 +241,7 @@ public class PageScanner {
         graphics2D.translate((height - width) / 2, (height - width) / 2);
         graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
         graphics2D.drawRenderedImage(src, null);
-        int[] buf = topleft;
+        int x = topleft[0], y = topleft[1];
         topleft[1] = botleft[0];
         topleft[0] = height - botleft[1];
 
@@ -200,9 +251,145 @@ public class PageScanner {
         botright[1] = topright[0];
         botright[0] = height - topright[1];
 
-        topright[1] = buf[0];
-        topright[0] = width - buf[1];
+        topright[1] = x;
+        topright[0] = height - y;
         return dest;
+    }
+    public static void rectangle(int[] a, int rec){
+        int[] pixel = new int[1];
+        pixel[0] = 0;
+        //System.out.println("a[0]=" + a[0] + ", a[1]=" + a[1]);
+        //System.out.println("- - - - - -");
+        for (int i = 0; i <= rec; i++){
+            if (i % 2 == 0){
+                pixel[0] = 0;
+            } else {
+                pixel[0] = 255;
+            }
+            raster.setPixel(a[0] + i, a[1], pixel);
+            raster.setPixel(a[0], a[1] + i, pixel);
+            raster.setPixel(a[0] + i, a[1] + rec, pixel);
+            raster.setPixel(a[0] + rec, a[1] + i, pixel);
+        }
+    }
+    public static void show(int[] a){
+        System.out.println("b[0]=" + a[0] + ", b[1]=" + a[1]);
+        System.out.println("- - - - - -");
+    }
+    public static String getColumn12(int x, int y){
+        String result = "";
+        int minellipce = 80000;
+        for (int i = 1; i < 42; i++){
+
+            if (minellipce > checkEllipse(x, y)){
+                minellipce = checkEllipse(x, y);
+                result += getChar(i - 1);
+            }
+            int[] XoY = new int[2];
+            XoY[0] = x - 14;
+            XoY[1] = y - 14;
+            rectangle(XoY, 28);
+            if (i % 2 == 0){
+                y++;
+            }
+            if (i % 7 == 0){
+                y++;
+            }
+            y += 36;
+        }
+        return result;
+    }
+    public static String getColumn35(int x, int y){
+        String result = "";
+        int minellipce = 80000;
+        for (int i = 1; i < 11; i++){
+            if (minellipce > checkEllipse(x, y)){
+                minellipce = checkEllipse(x, y);
+                result += getNumber(i - 1);
+            }
+            int[] XoY = new int[2];
+            XoY[0] = x - 14;
+            XoY[1] = y - 14;
+            rectangle(XoY, 28);
+            if (i % 2 == 0){
+                y++;
+            }
+            if (i % 7 == 0){
+                y++;
+            }
+            y += 36;
+        }
+        return result;
+    }
+    public static char getChar(int i){
+        switch (i){
+            case 0: return 'А';
+            case 1: return 'Ә';
+            case 2: return 'Б';
+            case 3: return 'В';
+            case 4: return 'Г';
+            case 5: return 'Ғ';
+            case 6: return 'Д';
+            case 7: return 'Е';
+            case 8: return 'Ж';
+            case 9: return 'З';
+            case 10: return 'И';
+            case 11: return 'Й';
+            case 12: return 'К';
+            case 13: return 'Қ';
+            case 14: return 'Л';
+            case 15: return 'М';
+            case 16: return 'Н';
+            case 17: return 'Ң';
+            case 18: return 'О';
+            case 19: return 'Ө';
+            case 20: return 'П';
+            case 21: return 'Р';
+            case 22: return 'С';
+            case 23: return 'Т';
+            case 24: return 'У';
+            case 25: return 'Ұ';
+            case 26: return 'Ү';
+            case 27: return 'Ф';
+            case 28: return 'Х';
+            case 29: return 'Һ';
+            case 30: return 'Ц';
+            case 31: return 'Ч';
+            case 32: return 'Ш';
+            case 33: return 'Щ';
+            case 34: return 'Ь';
+            case 35: return 'Ы';
+            case 36: return 'І';
+            case 37: return 'Э';
+            case 38: return 'Ю';
+            case 39: return 'Я';
+            case 40: return '-';
+        }
+        return ' ';
+    }
+    public static char getNumber(int i){
+        switch (i){
+            case 0: return '1';
+            case 1: return '2';
+            case 2: return '3';
+            case 3: return '4';
+            case 4: return '5';
+            case 5: return '6';
+            case 6: return '7';
+            case 7: return '8';
+            case 8: return '9';
+            case 9: return '0';
+        }
+        return ' ';
+    }
+    public static String getDisseplinName(int i){
+        switch (i){
+            case 1: return "Математика";
+            case 2: return "Физика";
+            case 3: return "Биология";
+            case 4: return "Химия";
+        }
+        return "";
     }
 
 }
