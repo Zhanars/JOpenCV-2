@@ -43,18 +43,18 @@ public class PageScanner {
                 }
                 if (mintr > checkRectanle(width - x, y)){
                     mintr = checkRectanle(width - x, y);
-                    topright[0] = width - x + 22;
+                    topright[0] = width - x + 21;
                     topright[1] = y;
                 }
                 if (minbl > checkRectanle(x, height - y)){
                     minbl = checkRectanle(x, height - y);
                     botleft[0] = x;
-                    botleft[1] = height - y + 22;
+                    botleft[1] = height - y + 21;
                 }
                 if (minbr > checkRectanle(width - x, height - y)){
                     minbr = checkRectanle(width - x, height - y);
-                    botright[0] = width - x + 22;
-                    botright[1] = height - y + 22;
+                    botright[0] = width - x + 21;
+                    botright[1] = height - y + 21;
                 }
             }
         }
@@ -62,7 +62,7 @@ public class PageScanner {
                 (Math.abs(topleft[0] - botleft[0]) > 10) ||
                 (Math.abs(topleft[1] - topright[1]) > 10) ||
                 (Math.abs(topright[0] - botright[0]) > 10) ||
-                (Math.abs(botleft[1] - botright[1]) > 10)){
+                (Math.abs(botleft[1] - botright[1]) > 10)) {
             System.out.print("Ошибка сканирования");
         }
         int ellipsePos = 0;
@@ -94,11 +94,8 @@ public class PageScanner {
                 }
             }
         }
-
         int[] pixel = new int[1];
         pixel[0] = 255;
-
-        System.out.println(ellipsePos + ", " + ellipse[0] + ", " + ellipse[1]);
         raster.setPixel(topleft[0], topleft[1], pixel);
         raster.setPixel(topright[0], topright[1], pixel);
         raster.setPixel(botleft[0], botleft[1], pixel);
@@ -107,12 +104,18 @@ public class PageScanner {
         image.setData(raster);
         gridImage = image;
         for (int i = 0; i < ellipsePos; i++){
+            System.out.println("1 " + topleft[0] + ", " + topleft[1]);
+            System.out.println("2 " + topright[0] + ", " + topright[1]);
+            System.out.println("3 " + botleft[0] + ", " + botleft[1]);
+            System.out.println("4 " + botright[0] + ", " + botright[1]);
+            System.out.println("- - - - - ");
             gridImage = rotateImag(gridImage);
         }
         System.out.println("1 " + topleft[0] + ", " + topleft[1]);
         System.out.println("2 " + topright[0] + ", " + topright[1]);
         System.out.println("3 " + botleft[0] + ", " + botleft[1]);
         System.out.println("4 " + botright[0] + ", " + botright[1]);
+        System.out.println(ellipsePos + ", " + ellipse[0] + ", " + ellipse[1]);
         ImageIO.write(gridImage, "jpg", new File("123.jpg"));
         System.out.println("Finish print");
     }
@@ -158,8 +161,8 @@ public class PageScanner {
     }
     public static int checkRectanle(int x, int y) {
         int sum = 0;
-        for (int i = x; i < x + 23; i++){
-            for (int j = y; j < y + 23; j++){
+        for (int i = x; i < x + 21; i++){
+            for (int j = y; j < y + 21; j++){
                 int[] pixel = raster.getPixel(i, j, new int[1]);
                 sum += pixel[0];
             }
@@ -187,6 +190,18 @@ public class PageScanner {
         graphics2D.translate((height - width) / 2, (height - width) / 2);
         graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
         graphics2D.drawRenderedImage(src, null);
+        int[] buf = topleft;
+        topleft[1] = botleft[0];
+        topleft[0] = height - botleft[1];
+
+        botleft[1] = botright[0];
+        botleft[0] = height - botright[1];
+
+        botright[1] = topright[0];
+        botright[0] = height - topright[1];
+
+        topright[1] = buf[0];
+        topright[0] = width - buf[1];
         return dest;
     }
 
