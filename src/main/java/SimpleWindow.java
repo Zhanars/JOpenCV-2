@@ -124,7 +124,7 @@ public class SimpleWindow extends JFrame {
                     JOptionPane.WARNING_MESSAGE);
             //PageScanner.scan();
             try {
-                PageScanner.rotate("DocFile (1).jpg");
+                PageScanner.rotate("2019-05-28_140448.jpg");
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

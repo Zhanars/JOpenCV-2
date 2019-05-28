@@ -23,6 +23,8 @@ public class PageScanner {
     public static int[] botleft = new int[2];
     public static int[] botright = new int[2];
     public static int[] ellipse = new int[2];
+    public static int minellipce = 110000;
+    public static String error = "";
     public static void rotate(String res) throws IOException {
         File file = new File(res);
         BufferedImage bufferedImage = ImageIO.read(file);
@@ -30,29 +32,29 @@ public class PageScanner {
         Graphics g = image.getGraphics();
         g.drawImage( bufferedImage, 0, 0, null );
         g.dispose();
-        RescaleOp rescaleOp = new RescaleOp(1.1f, 15, null);
+        RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
         rescaleOp.filter(image, image);
         int mintl = 1000000, mintr = 1000000, minbl = 1000000, minbr = 1000000, minell = 100000, width = image.getWidth() - 23, height = image.getHeight() - 23;
         raster = image.getRaster();
         for (int x = 0; x < 150; x++){
             for (int y = 0; y < 150; y++){
-                if (mintl > checkRectanle(x, y)){
-                    mintl = checkRectanle(x, y);
+                if (mintl > checkRectangle(x, y)){
+                    mintl = checkRectangle(x, y);
                     topleft[0] = x;
                     topleft[1] = y;
                 }
-                if (mintr > checkRectanle(width - x, y)){
-                    mintr = checkRectanle(width - x, y);
+                if (mintr > checkRectangle(width - x, y)){
+                    mintr = checkRectangle(width - x, y);
                     topright[0] = width - x + 21;
                     topright[1] = y;
                 }
-                if (minbl > checkRectanle(x, height - y)){
-                    minbl = checkRectanle(x, height - y);
+                if (minbl > checkRectangle(x, height - y)){
+                    minbl = checkRectangle(x, height - y);
                     botleft[0] = x;
                     botleft[1] = height - y + 21;
                 }
-                if (minbr > checkRectanle(width - x, height - y)){
-                    minbr = checkRectanle(width - x, height - y);
+                if (minbr > checkRectangle(width - x, height - y)){
+                    minbr = checkRectangle(width - x, height - y);
                     botright[0] = width - x + 21;
                     botright[1] = height - y + 21;
                 }
@@ -111,8 +113,15 @@ public class PageScanner {
         System.out.println(getSection3());
         System.out.println(getSection5());
         System.out.println(getSection6());
+        String section7 = getSection7891(1.5, 8) + getSection7892(8.5, 10);
+        System.out.println("Section7 " + section7.length() + ":" + section7);
+        String section8 = getSection7891(15, 9) + getSection7892(22, 10);
+        System.out.println("Section8 " + section8.length() + ":" + section8);
+        String section9 = getSection7891(28.5, 12) + getSection7892(35.5, 14);
+        System.out.println("Section9 " + section9.length() + ":" + section9);
         gridImage.setData(raster);
         ImageIO.write(gridImage, "jpg", new File("123.jpg"));
+        System.out.println("Error:" + error);
     }
     public static void scan(){
         Imaging imaging = new Imaging("myApp", 0);
@@ -158,7 +167,12 @@ public class PageScanner {
         String res = "";
         int x = topleft[0] + (int)(38*0.5), y = topleft[1] + (int)(36*2.5);
         for (int i = 0; i < 14; i++){
-            res += getColumn12(x,y);
+            if (getColumn12(x,y).length() > 1) {
+                error += "\nОшибка в Секторе 1 и Колонке " + (i + 1);
+                res += " ";
+            } else {
+                res += getColumn12(x,y);
+            }
             x += 38;
         }
         return res;
@@ -167,7 +181,12 @@ public class PageScanner {
         String res = "";
         int x = topleft[0] + (int)(38*15.5), y = topleft[1] + (int)(36*2.5);
         for (int i = 0; i < 12; i++){
-            res += getColumn12(x,y);
+            if (getColumn12(x,y).length() > 1) {
+                error += "\nОшибка в Секторе 2 и Колонке " + (i + 1);
+                res += " ";
+            } else {
+                res += getColumn12(x,y);
+            }
             x += 38;
         }
         return res;
@@ -176,7 +195,12 @@ public class PageScanner {
         String res = "";
         int x = topleft[0] + (int)(38*28.5), y = topleft[1] + (int)(36*4.5) + 5;
         for (int i = 0; i < 12; i++){
-            res += getColumn35(x,y);
+            if (getColumn35(x,y).length() > 1) {
+                error += "\nОшибка в Секторе 3 и Колонке " + (i + 1);
+                res += " ";
+            } else {
+                res += getColumn35(x,y);
+            }
             x += 38;
         }
         return res;
@@ -185,7 +209,12 @@ public class PageScanner {
         String res = "";
         int x = topleft[0] + (int)(38*36.5) - 2, y = topleft[1] + (int)(36*33) + 5;
         for (int i = 0; i < 4; i++){
-            res += getColumn35(x,y);
+            if (getColumn35(x,y).length() > 1) {
+                error += "\nОшибка в Секторе 5 и Колонке " + (i + 1);
+                res += " ";
+            } else {
+                res += getColumn35(x,y);
+            }
             x += 38;
         }
         return res;
@@ -193,10 +222,8 @@ public class PageScanner {
     public static String getSection6(){
         String result = "";
         int x = topleft[0] + (int)(38*34.5) - 2, y = topleft[1] + (int)(36*34) + 5;
-        int minellipce = 80000;
         for (int i = 1; i < 5; i++){
             if (minellipce > checkEllipse(x, y)){
-                minellipce = checkEllipse(x, y);
                 result += getDisseplinName(i);
             }
             int[] XoY = new int[2];
@@ -208,9 +235,65 @@ public class PageScanner {
             }
             y += 36;
         }
+        if (result.length() > 10){
+            error += "\nОшибка в Секторе 6";
+            result = "";
+        }
         return result;
     }
-    public static int checkRectanle(int x, int y) {
+    public static String getSection7891(double d, int plusY){
+        String res = "";
+        int x = topleft[0] + (int)(38*d), y = topleft[1] + (int)(36*46) + plusY;
+        for (int i = 1; i < 14; i++){
+            if (getColumn789(x,y).length() > 1) {
+                if (d < 10) {
+                    error += "\nОшибка в Секторе 7 и вопрос " + i;
+                } else if(d < 25){
+                    error += "\nОшибка в Секторе 8 и вопрос " + i;
+                } else if(d < 37){
+                    error += "\nОшибка в Секторе 9 и вопрос " + i;
+                }
+                res += " ";
+            } else {
+                res += getColumn789(x,y);
+            }
+            if (i % 2 == 0){
+                y++;
+            }
+            if (i % 7 == 0){
+                y++;
+            }
+            y += 36;
+        }
+        return res;
+    }
+    public static String getSection7892(double d, int plusY){
+        String res = "";
+        int x = topleft[0] + (int)(38*d), y = topleft[1] + (int)(36*46) + plusY;
+        for (int i = 14; i < 26; i++){
+            if (getColumn789(x,y).length() > 1) {
+                if (d < 10) {
+                    error += "\nОшибка в Секторе 7 и вопрос " + i;
+                } else if(d < 25){
+                    error += "\nОшибка в Секторе 8 и вопрос " + i;
+                } else if(d < 37){
+                    error += "\nОшибка в Секторе 9 и вопрос " + i;
+                }
+                res += " ";
+            } else {
+                res += getColumn789(x,y);
+            }
+            if (i % 2 == 0){
+                y++;
+            }
+            if (i % 7 == 0){
+                y++;
+            }
+            y += 36;
+        }
+        return res;
+    }
+    public static int checkRectangle(int x, int y) {
         int sum = 0;
         for (int i = x; i < x + 21; i++){
             for (int j = y; j < y + 21; j++){
@@ -278,11 +361,8 @@ public class PageScanner {
     }
     public static String getColumn12(int x, int y){
         String result = "";
-        int minellipce = 80000;
         for (int i = 1; i < 42; i++){
-
             if (minellipce > checkEllipse(x, y)){
-                minellipce = checkEllipse(x, y);
                 result += getChar(i - 1);
             }
             int[] XoY = new int[2];
@@ -301,10 +381,8 @@ public class PageScanner {
     }
     public static String getColumn35(int x, int y){
         String result = "";
-        int minellipce = 80000;
         for (int i = 1; i < 11; i++){
             if (minellipce > checkEllipse(x, y)){
-                minellipce = checkEllipse(x, y);
                 result += getNumber(i - 1);
             }
             int[] XoY = new int[2];
@@ -319,6 +397,21 @@ public class PageScanner {
             }
             y += 36;
         }
+        return result;
+    }
+    public static String getColumn789(int x, int y){
+        String result = "";
+        for (int i = 1; i < 6; i++){
+            if (minellipce > checkEllipse(x, y)){
+                result += getABCDE(i - 1);
+            }
+            int[] XoY = new int[2];
+            XoY[0] = x - 14;
+            XoY[1] = y - 14;
+            rectangle(XoY, 28);
+            x += 38;
+        }
+        if (result == "") result = " ";
         return result;
     }
     public static char getChar(int i){
@@ -390,6 +483,16 @@ public class PageScanner {
             case 4: return "Химия";
         }
         return "";
+    }
+    public static char getABCDE(int i){
+        switch (i){
+            case 0: return 'A';
+            case 1: return 'B';
+            case 2: return 'C';
+            case 3: return 'D';
+            case 4: return 'E';
+        }
+        return ' ';
     }
 
 }
