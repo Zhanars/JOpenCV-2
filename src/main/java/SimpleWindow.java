@@ -122,12 +122,8 @@ public class SimpleWindow extends JFrame {
                     message,
                     "Результат",
                     JOptionPane.WARNING_MESSAGE);
-            //PageScanner.scan();
-            try {
-                PageScanner.rotate("2019-05-28_140448.jpg");
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            PageScanner.scan();
+            //PageScanner.rotate("2019-05-28_140448.jpg");
             JOptionPane.showMessageDialog(null,
                     "Бланк готов",
                     "Бланк готов",

@@ -141,7 +141,7 @@ public class PageScanner {
                             + "  \"format\" : \"jpg\","
                             + "  \"save_path\" : \"${TMP}\\\\${TMS}${EXT}\""
                             + "} ]"
-                            + "}"), "WIA-HP LJ M129M134 (USB)", false, false);
+                            + "}"), "select", false, false);
 
 
             System.out.println(result == null ? "(null)" : result.toJson(true));
