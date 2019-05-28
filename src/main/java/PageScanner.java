@@ -65,7 +65,8 @@ public class PageScanner {
                 (Math.abs(topleft[1] - topright[1]) > 10) ||
                 (Math.abs(topright[0] - botright[0]) > 10) ||
                 (Math.abs(botleft[1] - botright[1]) > 10)) {
-            System.out.print("Ошибка сканирования");
+            System.out.println("Ошибка сканирования");
+            return;
         }
         int ellipsePos = 0;
         for (int x = 22; x < 150; x++){
@@ -96,7 +97,6 @@ public class PageScanner {
                 }
             }
         }
-        System.out.println(checkEllipse(ellipse[0], ellipse[1]));
         image.setData(raster);
         gridImage = image;
         for (int i = 0; i < ellipsePos; i++){
@@ -127,37 +127,31 @@ public class PageScanner {
         Imaging imaging = new Imaging("myApp", 0);
         Result result = null;
         try {
-            result = imaging.scan(Request.fromJson(
-                    "{ \"twain_cap_setting\" : {\n" +
+            result = imaging.scan(
+                    "{ \"twain_cap_setting\" : {" +
                             "    \"ICAP_PIXELTYPE\" : \"TWPT_GRAY\"," +
-                            "    \"ICAP_XRESOLUTION\" : \"50\", " +
-                            "    \"ICAP_YRESOLUTION\" : \"50\"," +
+                            "    \"ICAP_XRESOLUTION\" : \"200\", " +
+                            "    \"ICAP_YRESOLUTION\" : \"200\"," +
                             "    \"ICAP_BITDEPTH\" : \"8\"," +
                             "    \"ICAP_SUPPORTEDSIZES\" : \"TWSS_A4\" " +
                             "  },"
-
                             + "\"output_settings\" : [ {"
                             + "  \"type\" : \"save\","
                             + "  \"format\" : \"jpg\","
                             + "  \"save_path\" : \"${TMP}\\\\${TMS}${EXT}\""
                             + "} ]"
-                            + "}"), "select", false, false);
+                            + "}", "select", false, false);
 
 
             System.out.println(result == null ? "(null)" : result.toJson(true));
             JSONObject object = new JSONObject(result.toJson(true));
             JSONArray getArray = object.getJSONArray("output");
-            String res = "";
-            for (int i = 0; i < getArray.length(); i++) {
-                JSONObject obj = getArray.getJSONObject(i);
-                res = obj.get("result").toString();
-                res = res.substring(2, res.length() - 2);
-                //res = res.replace("\\\\", "/");
+            JSONObject obj = getArray.getJSONObject(0);
+            JSONArray resArray = obj.getJSONArray("result");
+            for (int i = 0; i < resArray.length(); i++){
+                System.out.println(resArray.get(i));
+                rotate(resArray.get(i).toString());
             }
-            System.out.println(res);
-            nu.pattern.OpenCV.loadShared();
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            rotate(res);
         }catch (IOException e) {
                 System.out.println("Ошибка сканирования");
             e.printStackTrace();
