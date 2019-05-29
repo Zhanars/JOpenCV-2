@@ -35,7 +35,7 @@ public class PageScanner {
         g.dispose();
         RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
         rescaleOp.filter(image, image);
-        int mintl = 1000000, mintr = 1000000, minbl = 1000000, minbr = 1000000, minell = 100000, width = image.getWidth() - 23, height = image.getHeight() - 23;
+        int mintl = minellipce, mintr = minellipce, minbl = minellipce, minbr = minellipce, minell = minellipce, width = image.getWidth() - 23, height = image.getHeight() - 23;
         raster = image.getRaster();
         for (int x = 20; x < 150; x++){
             for (int y = 20; y < 150; y++){
