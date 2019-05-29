@@ -143,12 +143,11 @@ public class PageScanner {
                             + "} ]"
                             + "}", "select", false, false);
 
-
-            System.out.println(result == null ? "(null)" : result.toJson(true));
             JSONObject object = new JSONObject(result.toJson(true));
             JSONArray getArray = object.getJSONArray("output");
             JSONObject obj = getArray.getJSONObject(0);
             JSONArray resArray = obj.getJSONArray("result");
+            System.out.println(result == null ? "(null)" : resArray.length());
             for (int i = 0; i < resArray.length(); i++){
                 System.out.println(resArray.get(i));
                 rotate(resArray.get(i).toString());
