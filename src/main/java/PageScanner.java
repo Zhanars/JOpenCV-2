@@ -26,6 +26,7 @@ public class PageScanner {
     public static int minellipce = 110000;
     public static String error = "";
     public static void rotate(String res) throws IOException {
+        error = "";
         File file = new File(res);
         BufferedImage bufferedImage = ImageIO.read(file);
         BufferedImage image = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY );
@@ -103,10 +104,10 @@ public class PageScanner {
             gridImage = rotateImag(gridImage);
         }
         raster = gridImage.getRaster();
-        rectangle(topleft, 20);
-        rectangle(topright, 20);
-        rectangle(botleft, 20);
-        rectangle(botright, 20);
+        //rectangle(topleft, 20);
+        //rectangle(topright, 20);
+        //rectangle(botleft, 20);
+        //rectangle(botright, 20);
         System.out.println("Finish print");
         System.out.println(getSection1());
         System.out.println(getSection2());
