@@ -37,8 +37,8 @@ public class PageScanner {
         rescaleOp.filter(image, image);
         int mintl = 1000000, mintr = 1000000, minbl = 1000000, minbr = 1000000, minell = 100000, width = image.getWidth() - 23, height = image.getHeight() - 23;
         raster = image.getRaster();
-        for (int x = 0; x < 150; x++){
-            for (int y = 0; y < 150; y++){
+        for (int x = 20; x < 150; x++){
+            for (int y = 20; y < 150; y++){
                 if (mintl > checkRectangle(x, y)){
                     mintl = checkRectangle(x, y);
                     topleft[0] = x;
