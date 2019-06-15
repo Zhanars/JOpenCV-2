@@ -44,7 +44,7 @@ public class SimpleWindow extends JFrame {
     private JCheckBox check4 = new JCheckBox("Вкл", true);
     private JCheckBox check5 = new JCheckBox("Вкл", false);
     public SimpleWindow(){
-        super("Конструктор бланка");
+        super("TestReader 1.5 - Сканирование бланков");
         this.setBounds(200,100,1000,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
@@ -122,12 +122,12 @@ public class SimpleWindow extends JFrame {
                     message,
                     "Результат",
                     JOptionPane.WARNING_MESSAGE);
-            PageScanner.scan();
-            //try {
-                //PageScanner.rotate("C:\\Users\\Joker\\AppData\\Local\\Temp\\2019-05-28_16-06-29.999.jpg");
-            //} catch (IOException e1) {
-                //e1.printStackTrace();
-            //}
+            //PageScanner.scan();
+            try {
+                PageScanner.rotate("images/123.jpg");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             JOptionPane.showMessageDialog(null,
                     "Бланк готов",
                     "Бланк готов",
