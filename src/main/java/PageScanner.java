@@ -114,11 +114,11 @@ public class PageScanner {
         System.out.println(getSection3());
         System.out.println(getSection5());
         System.out.println(getSection6());
-        String section7 = getSection7891(1.5, 8) + getSection7892(8.5, 10);
+        String section7 = getSection789(1.5, 8, 1, 14) + getSection789(8.5, 10,14,26);
         System.out.println("Section7 " + section7.length() + ":" + section7);
-        String section8 = getSection7891(15, 9) + getSection7892(22, 10);
+        String section8 = getSection789(15, 9, 1, 14) + getSection789(22, 10,14,26);
         System.out.println("Section8 " + section8.length() + ":" + section8);
-        String section9 = getSection7891(28.5, 12) + getSection7892(35.5, 14);
+        String section9 = getSection789(28.5, 12, 1, 14) + getSection789(35.5, 14,14,26);
         System.out.println("Section9 " + section9.length() + ":" + section9);
         gridImage.setData(raster);
         ImageIO.write(gridImage, "jpg", new File("123.jpg"));
@@ -162,7 +162,7 @@ public class PageScanner {
         int x = topleft[0] + (int)(38*0.5), y = topleft[1] + (int)(36*2.5);
         for (int i = 0; i < 14; i++){
             if (getColumn12(x,y).length() > 1) {
-                error += "\nОшибка в Секторе 1 и Колонке " + (i + 1);
+                error += ",1." + (i + 1);
                 res += " ";
             } else {
                 res += getColumn12(x,y);
@@ -176,7 +176,7 @@ public class PageScanner {
         int x = topleft[0] + (int)(38*15.5), y = topleft[1] + (int)(36*2.5);
         for (int i = 0; i < 12; i++){
             if (getColumn12(x,y).length() > 1) {
-                error += "\nОшибка в Секторе 2 и Колонке " + (i + 1);
+                error += ",2." + (i + 1);
                 res += " ";
             } else {
                 res += getColumn12(x,y);
@@ -190,7 +190,7 @@ public class PageScanner {
         int x = topleft[0] + (int)(38*28.5), y = topleft[1] + (int)(36*4.5) + 5;
         for (int i = 0; i < 12; i++){
             if (getColumn35(x,y).length() > 1) {
-                error += "\nОшибка в Секторе 3 и Колонке " + (i + 1);
+                error += ",3." + (i + 1);
                 res += " ";
             } else {
                 res += getColumn35(x,y);
@@ -204,7 +204,7 @@ public class PageScanner {
         int x = topleft[0] + (int)(38*36.5) - 2, y = topleft[1] + (int)(36*33) + 5;
         for (int i = 0; i < 4; i++){
             if (getColumn35(x,y).length() > 1) {
-                error += "\nОшибка в Секторе 5 и Колонке " + (i + 1);
+                error += ",5." + (i + 1);
                 res += " ";
             } else {
                 res += getColumn35(x,y);
@@ -230,48 +230,22 @@ public class PageScanner {
             y += 36;
         }
         if (result.length() > 10){
-            error += "\nОшибка в Секторе 6";
+            error += ",6";
             result = "";
         }
         return result;
     }
-    public static String getSection7891(double d, int plusY){
+    public static String getSection789(double d, int plusY, int startIndex, int endIndex){
         String res = "";
         int x = topleft[0] + (int)(38*d), y = topleft[1] + (int)(36*46) + plusY;
-        for (int i = 1; i < 14; i++){
+        for (int i = startIndex; i < endIndex; i++){
             if (getColumn789(x,y).length() > 1) {
                 if (d < 10) {
-                    error += "\nОшибка в Секторе 7 и вопрос " + i;
+                    error += ",7." + i;
                 } else if(d < 25){
-                    error += "\nОшибка в Секторе 8 и вопрос " + i;
+                    error += ",8." + i;
                 } else if(d < 37){
-                    error += "\nОшибка в Секторе 9 и вопрос " + i;
-                }
-                res += " ";
-            } else {
-                res += getColumn789(x,y);
-            }
-            if (i % 2 == 0){
-                y++;
-            }
-            if (i % 7 == 0){
-                y++;
-            }
-            y += 36;
-        }
-        return res;
-    }
-    public static String getSection7892(double d, int plusY){
-        String res = "";
-        int x = topleft[0] + (int)(38*d), y = topleft[1] + (int)(36*46) + plusY;
-        for (int i = 14; i < 26; i++){
-            if (getColumn789(x,y).length() > 1) {
-                if (d < 10) {
-                    error += "\nОшибка в Секторе 7 и вопрос " + i;
-                } else if(d < 25){
-                    error += "\nОшибка в Секторе 8 и вопрос " + i;
-                } else if(d < 37){
-                    error += "\nОшибка в Секторе 9 и вопрос " + i;
+                    error += ",9." + i;
                 }
                 res += " ";
             } else {
