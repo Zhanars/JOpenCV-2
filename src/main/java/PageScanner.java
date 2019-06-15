@@ -109,20 +109,11 @@ public class PageScanner {
         //rectangle(botleft, 20);
         //rectangle(botright, 20);
         System.out.println("Finish print");
-        System.out.println(getSection1());
-        System.out.println(getSection2());
-        System.out.println(getSection3());
-        System.out.println(getSection5());
-        System.out.println(getSection6());
-        String section7 = getSection789(1.5, 8, 1, 14) + getSection789(8.5, 10,14,26);
-        System.out.println("Section7 " + section7.length() + ":" + section7);
-        String section8 = getSection789(15, 9, 1, 14) + getSection789(22, 10,14,26);
-        System.out.println("Section8 " + section8.length() + ":" + section8);
-        String section9 = getSection789(28.5, 12, 1, 14) + getSection789(35.5, 14,14,26);
-        System.out.println("Section9 " + section9.length() + ":" + section9);
+        System.out.println(getResultSections());
+        api.inserBlank(getResultSections());
         gridImage.setData(raster);
         ImageIO.write(gridImage, "jpg", new File("123.jpg"));
-        System.out.println("Error:" + error);
+
     }
     public static void scan(){
         Imaging imaging = new Imaging("myApp", 0);
@@ -461,6 +452,19 @@ public class PageScanner {
             case 4: return 'E';
         }
         return ' ';
+    }
+    public static String getResultSections(){
+        String result = "";
+        result += getSection1() + ";";
+        result += getSection2() + ";";
+        result += getSection3() + ";";
+        result += getSection5() + ";";
+        result += getSection6() + ";";
+        result += getSection789(1.5, 8, 1, 14) + getSection789(8.5, 10,14,26) + ";";
+        result += getSection789(15, 9, 1, 14) + getSection789(22, 10,14,26) + ";";
+        result += getSection789(28.5, 12, 1, 14) + getSection789(35.5, 14,14,26) + ";";
+        result += error;
+        return result;
     }
 
 }
