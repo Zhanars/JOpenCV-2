@@ -109,7 +109,6 @@ public class PageScanner {
         //rectangle(botleft, 20);
         //rectangle(botright, 20);
         System.out.println("Finish print");
-        System.out.println(getResultSections());
         api.inserBlank(getResultSections());
         gridImage.setData(raster);
         ImageIO.write(gridImage, "jpg", new File("123.jpg"));
@@ -463,7 +462,7 @@ public class PageScanner {
         result += getSection789(1.5, 8, 1, 14) + getSection789(8.5, 10,14,26) + ";";
         result += getSection789(15, 9, 1, 14) + getSection789(22, 10,14,26) + ";";
         result += getSection789(28.5, 12, 1, 14) + getSection789(35.5, 14,14,26) + ";";
-        result += error.substring(1);;
+        result += error.substring(1);
         return result;
     }
 
