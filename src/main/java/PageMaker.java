@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.IOException;
 
 public class PageMaker {
     public static Mat src = new Mat();
@@ -77,10 +78,5 @@ public class PageMaker {
             Imgproc.rectangle(src, new Point(newStartX, startY), new Point(newStartX + 1, endY), new Scalar(0, 0));
             newStartX += depth;
         }
-
-
-
     }
-
-
 }

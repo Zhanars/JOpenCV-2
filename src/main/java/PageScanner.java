@@ -14,6 +14,7 @@ import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 public class PageScanner {
     public static BufferedImage gridImage;
@@ -23,7 +24,7 @@ public class PageScanner {
     public static int[] botleft = new int[2];
     public static int[] botright = new int[2];
     public static int[] ellipse = new int[2];
-    public static int minellipce = 110000;
+    public static int minellipce = 130000;
     public static String error = "";
     public static void rotate(String res) throws IOException {
         error = "";
@@ -108,10 +109,10 @@ public class PageScanner {
         //rectangle(topright, 20);
         //rectangle(botleft, 20);
         //rectangle(botright, 20);
-        System.out.println("Finish print");
-        api.inserBlank(getResultSections());
         gridImage.setData(raster);
         ImageIO.write(gridImage, "jpg", new File("123.jpg"));
+        System.out.println("Finish print");
+        api.inserBlank(getResultSections());
 
     }
     public static void scan(){
@@ -299,8 +300,6 @@ public class PageScanner {
     public static void rectangle(int[] a, int rec){
         int[] pixel = new int[1];
         pixel[0] = 0;
-        //System.out.println("a[0]=" + a[0] + ", a[1]=" + a[1]);
-        //System.out.println("- - - - - -");
         for (int i = 0; i <= rec; i++){
             if (i % 2 == 0){
                 pixel[0] = 0;
@@ -462,7 +461,15 @@ public class PageScanner {
         result += getSection789(1.5, 8, 1, 14) + getSection789(8.5, 10,14,26) + ";";
         result += getSection789(15, 9, 1, 14) + getSection789(22, 10,14,26) + ";";
         result += getSection789(28.5, 12, 1, 14) + getSection789(35.5, 14,14,26) + ";";
-        result += error.substring(1);
+        if (error.length() > 0) {
+            result += error.substring(1);
+            String root = System.getProperty("user.dir") + "\\123.jpg";
+            long millis2 = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+            String remote = "/testreader.atu.kz/images/" + millis2 + ".jpg";
+            result += ";images/" + millis2 + ".jpg";
+            api.downloadfile(root, remote);
+
+        }
         return result;
     }
 

@@ -3,11 +3,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -15,6 +15,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 
 public class api {
     private static String result = "";
@@ -43,7 +45,7 @@ public class api {
     public static String TokenforSite(){
         String countName = "";
         final Date currentTime = new Date();
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         System.out.println(sdf.format(currentTime));
         try {
@@ -62,7 +64,6 @@ public class api {
         //String s="muffin break";
         MessageDigest m = MessageDigest.getInstance("MD5");
         m.reset();
-        // передаем в MessageDigest байт-код строки
         m.update(str.getBytes("utf-8"));
         // получаем MD5-хеш строки без лидирующих нулей
         String s2 = new BigInteger(1, m.digest()).toString(16);
@@ -74,5 +75,42 @@ public class api {
         }
         // возвращаем MD5-хеш
         return sb.append(s2).toString();
+    }
+    public static void downloadfile(String file_dir, String RemoteFile) {
+        String server = "195.210.46.34";
+        int port = 21;
+        String user = "joker";
+        String pass = "Joker123";
+
+        FTPClient ftpClient = new FTPClient();
+        try {
+
+            ftpClient.connect(server, port);
+            ftpClient.login(user, pass);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            File firstLocalFile = new File(file_dir);
+
+            InputStream inputStream = new FileInputStream(firstLocalFile);
+
+            System.out.println("Start uploading first file");
+            boolean done = ftpClient.storeFile(RemoteFile, inputStream);
+            inputStream.close();
+            if (done) {
+                System.out.println("The first file is uploaded successfully.");
+            }
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (ftpClient.isConnected()) {
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }
