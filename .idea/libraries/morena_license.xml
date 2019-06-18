@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="morena_license">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/morena/morena_license.jar!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/morena/morena_license.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/morena/morena_license.jar!/" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="jar://$PROJECT_DIR$/morena/morena_license.jar!/" />
+    </NATIVE>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/morena/morena_license.jar!/" />
+    </SOURCES>
+    <jarDirectory url="jar://$PROJECT_DIR$/morena/morena_license.jar!/" recursive="false" type="SOURCES" />
+  </library>
+</component>

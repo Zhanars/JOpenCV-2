@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="twain64">
+    <CLASSES />
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://D:/twaindsm-2.3.0.win.bin/twaindsm-2.3.0.win.bin/twain64" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>

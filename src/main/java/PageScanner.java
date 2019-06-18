@@ -466,7 +466,7 @@ public class PageScanner {
             String root = System.getProperty("user.dir") + "\\123.jpg";
             long millis2 = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
             String remote = "/testreader.atu.kz/images/" + millis2 + ".jpg";
-            result += ";images/" + millis2 + ".jpg";
+            result += ";" + remote;
             api.downloadfile(root, remote);
 
         }
