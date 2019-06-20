@@ -22,7 +22,7 @@ public class SimpleWindow extends JFrame {
     private JComboBox List1 = getList2(varcount,varsel);
     public SimpleWindow(){
         super("TestReader 1.5 - Сканирование бланков");
-        this.setBounds(200,100,400,150);
+        this.setBounds(400,400,400,150);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         container.setLayout(new GridLayout(5,2));
@@ -47,6 +47,9 @@ public class SimpleWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String message = "";
                 message += "Номер потока: " + (List1.getSelectedItem());
+                Buffer.setNumberPotok((String) List1.getSelectedItem());
+                Buffer.setColError(0);
+                Buffer.setColBlank(0);
             JOptionPane.showMessageDialog(null,
                     message,
                     "Начинать сканирование?",
@@ -57,6 +60,8 @@ public class SimpleWindow extends JFrame {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+            label31.setText(String.valueOf(Buffer.getColBlank()));
+            label41.setText(String.valueOf(Buffer.getColError()));
             JOptionPane.showMessageDialog(null,
                     "Бланки готовы",
                     "Отсканировано",

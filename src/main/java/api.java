@@ -33,6 +33,7 @@ public class api {
             HttpResponse response = httpClient.execute(request);
             System.out.println(request);
             System.out.println(response.getStatusLine());
+            Buffer.setColBlank(Buffer.getColBlank() + 1);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

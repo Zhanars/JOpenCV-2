@@ -461,14 +461,15 @@ public class PageScanner {
         result += getSection789(1.5, 8, 1, 14) + getSection789(8.5, 10,14,26) + ";";
         result += getSection789(15, 9, 1, 14) + getSection789(22, 10,14,26) + ";";
         result += getSection789(28.5, 12, 1, 14) + getSection789(35.5, 14,14,26) + ";";
+        result += Buffer.getNumberPotok() + ";";
         if (error.length() > 0) {
             result += error.substring(1);
             String root = System.getProperty("user.dir") + "\\123.jpg";
             long millis2 = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
             String remote = "/testreader.atu.kz/images/" + millis2 + ".jpg";
             result += ";" + remote;
+            Buffer.setColError(Buffer.getColError() + 1);
             api.downloadfile(root, remote);
-
         }
         return result;
     }
