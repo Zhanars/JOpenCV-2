@@ -22,10 +22,10 @@ public class SimpleWindow extends JFrame {
     private JComboBox List1 = getList2(varcount,varsel);
     public SimpleWindow(){
         super("TestReader 1.5 - Сканирование бланков");
-        this.setBounds(400,400,400,150);
+        this.setBounds(400,200,400,150);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
-        container.setLayout(new GridLayout(5,2));
+        container.setLayout(new GridLayout(5,2, 2,2));
 
         container.add(col1);
         container.add(col2);
