@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="morena">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/morena/morena.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
