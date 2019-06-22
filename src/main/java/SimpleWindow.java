@@ -11,7 +11,7 @@ public class SimpleWindow extends JFrame {
     private int varcount = 5;
     private int varsel = 0;
     private JButton button = new JButton("Начать");
-    private JLabel col1 = new JLabel("Назавние ");
+    private JLabel col1 = new JLabel("Название ");
     private JLabel col2 = new JLabel("Значение ");
     private JLabel label1 = new JLabel("Номер потока:");
     private JLabel label2 = new JLabel("Сканировать:");

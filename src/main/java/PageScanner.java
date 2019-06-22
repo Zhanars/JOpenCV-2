@@ -434,10 +434,10 @@ public class PageScanner {
     }
     public static String getDisseplinName(int i){
         switch (i){
-            case 1: return "Математика";
-            case 2: return "Физика";
-            case 3: return "Биология";
-            case 4: return "Химия";
+            case 1: return "1";
+            case 2: return "2";
+            case 3: return "3";
+            case 4: return "4";
         }
         return "";
     }
